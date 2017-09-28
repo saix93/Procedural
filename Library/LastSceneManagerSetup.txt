@@ -1,4 +1,1 @@
-sceneSetups:
-- path: Assets/Procedural/scene.unity
-  isLoaded: 1
-  isActive: 1
+sceneSetups: []
