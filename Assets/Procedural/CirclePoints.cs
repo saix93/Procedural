@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class CirclePoints : MonoBehaviour
 {
-    [SerializeField] [Range(1, 20)] int _points = 10;
+    [SerializeField] [Range(1, 10)] int _points = 10;
     [SerializeField] [Range(1, 10)] float _interiorScale = 1;
     [SerializeField] [Range(1, 10)] float _exteriorScale = 1;
+
     float _increment;
 
-    private void Start()
+    void Start()
     {
-        _increment = Mathf.PI * 2 / _points;
+        _increment = Mathf.PI / 2 / _points;
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
 
         for (int i = 0; i < _points + 1; i++)
         {
             float f = _increment * i;
+
             float x = Mathf.Sin(f);
             float y = Mathf.Cos(f);
 
@@ -24,30 +28,33 @@ public class CirclePoints : MonoBehaviour
 
             CreateSphere(interiorPosition, i);
             CreateSphere(exteriorPosition, i);
+
+
+            
         }
     }
 
     GameObject CreateSphere(Vector3 position, int index = -1)
     {
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
         sphere.transform.localScale = Vector3.one * .1f;
         sphere.transform.position = position;
 
-        if (index >= 0)
+        if(index >= 0)
         {
-            GameObject textGO = new GameObject("text");
-            TextMesh text = textGO.AddComponent<TextMesh>();
+            var textGO = new GameObject("text");
+            var text = textGO.AddComponent<TextMesh>();
             text.anchor = TextAnchor.MiddleCenter;
             text.text = index.ToString();
             text.color = Color.red;
             text.characterSize = .1f;
 
-            textGO.transform.SetParent(sphere.transform);
-            textGO.transform.rotation = Quaternion.Euler(90, 0, 0);
-            textGO.transform.localPosition = Vector3.zero;
+            text.transform.SetParent(sphere.transform);
+            text.transform.rotation = Quaternion.Euler(90, 0, 0);
+            text.transform.localPosition = Vector3.zero;
         }
-
+        
         return sphere;
     }
 }
